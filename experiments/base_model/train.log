@@ -199,3 +199,43 @@
 2018-05-16 18:02:03,885:INFO: - done.
 2018-05-16 18:02:07,096:INFO: Starting training for 10 epoch(s)
 2018-05-16 18:02:07,096:INFO: Epoch 1/10
+2018-05-17 00:49:28,893:INFO: - Train metrics: accuracy: 3114.312 ; loss: 4594.939
+2018-05-17 01:09:01,721:INFO: - Eval metrics : accuracy: 1768.469 ; loss: 1766.321
+2018-05-17 01:09:02,659:INFO: - Found new best accuracy
+2018-05-17 01:09:02,677:INFO: Epoch 2/10
+2018-05-17 02:45:15,149:INFO: Loading the datasets...
+2018-05-17 02:45:15,284:INFO: - done.
+2018-05-17 02:45:19,240:INFO: Starting training for 10 epoch(s)
+2018-05-17 02:45:19,241:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-05-17 02:45:20,023:INFO: Epoch 1/10
+2018-05-17 06:06:19,099:INFO: - Train metrics: accuracy: 1997.318 ; loss: 2763.616
+2018-05-17 06:21:01,031:INFO: - Eval metrics : accuracy: 1755.735 ; loss: 1759.276
+2018-05-17 06:21:01,705:INFO: - Found new best accuracy
+2018-05-17 06:21:01,711:INFO: Epoch 2/10
+2018-05-17 09:28:14,370:INFO: - Train metrics: accuracy: 1874.170 ; loss: 2612.952
+2018-05-17 09:44:39,425:INFO: - Eval metrics : accuracy: 1777.172 ; loss: 1778.263
+2018-05-17 09:44:39,922:INFO: Epoch 3/10
+2018-05-17 11:20:10,193:INFO: Loading the datasets...
+2018-05-17 11:20:10,318:INFO: - done.
+2018-05-17 11:20:14,743:INFO: Starting training for 10 epoch(s)
+2018-05-17 11:20:14,743:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-05-17 11:20:15,451:INFO: Epoch 1/10
+2018-05-17 11:22:56,068:INFO: Loading the datasets...
+2018-05-17 11:22:56,197:INFO: - done.
+2018-05-17 11:22:59,387:INFO: Starting training for 10 epoch(s)
+2018-05-17 11:22:59,387:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-05-17 11:23:00,101:INFO: Epoch 1/10
+2018-05-17 14:49:32,397:INFO: Loading the datasets...
+2018-05-17 14:49:32,529:INFO: - done.
+2018-05-17 14:50:02,593:INFO: Loading the datasets...
+2018-05-17 14:50:02,713:INFO: - done.
+2018-05-17 14:50:05,672:INFO: Starting training for 10 epoch(s)
+2018-05-17 14:50:05,674:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-05-17 14:50:36,868:INFO: Loading the datasets...
+2018-05-17 14:50:36,990:INFO: - done.
+2018-05-17 14:50:39,957:INFO: Starting training for 10 epoch(s)
+2018-05-17 14:50:39,957:INFO: Epoch 1/10
+2018-05-17 14:51:35,076:INFO: Loading the datasets...
+2018-05-17 14:51:35,200:INFO: - done.
+2018-05-17 14:51:38,018:INFO: Starting training for 10 epoch(s)
+2018-05-17 14:51:38,018:INFO: Epoch 1/10

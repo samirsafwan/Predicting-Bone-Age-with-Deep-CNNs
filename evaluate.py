@@ -40,14 +40,14 @@ def evaluate(model, loss_fn, dataloader, metrics, params):
     for data_batch, labels_batch in dataloader:
 
         # move to GPU if available
-        if params.cuda:
-            data_batch, labels_batch = data_batch.cuda(async=True), labels_batch.cuda(async=True)
+        
         # fetch the next evaluation batch
         labels = labels_batch[0]
         gender = labels_batch[1]
         data_batch, gender, labels = Variable(data_batch), Variable(gender), Variable(labels)
         gender = gender.view(gender.shape[0], 1)
-        
+        if params.cuda:
+            data_batch, gender, labels_batch = data_batch.cuda(async=True), gender.cuda(async=True), labels_batch.cuda(async=True)
         # compute model output
         output_batch = model((data_batch, gender))
         loss = loss_fn(output_batch, labels, False)

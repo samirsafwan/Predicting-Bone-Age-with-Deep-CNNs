@@ -47,8 +47,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
     with tqdm(total=len(dataloader)) as t:
         for i, (train_batch, labels_batch) in enumerate(dataloader):
             # move to GPU if available
-            if params.cuda:
-                train_batch, labels_batch = train_batch.cuda(async=True), labels_batch.cuda(async=True)
+            
             # convert to torch Variables
 
             ####### get gender out of labels, convert to tensor ########
@@ -59,7 +58,8 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
             train_batch, gender, labels = Variable(train_batch), Variable(gender), Variable(labels)
             #train_batch, gender, labels_batch = Variable(train_batch), Variable(gender), Variable(labels_batch)
             gender = gender.view(gender.shape[0],1)
-
+            if params.cuda:
+                train_batch, gender, labels_batch = train_batch.cuda(async=True), gender.cuda(aysnc=True), labels_batch.cuda(async=True)
             # compute model output and loss
             output_batch = model((train_batch, gender))
             loss = loss_fn(output_batch, labels, True)
@@ -105,7 +105,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
     logging.info("- Train metrics: " + metrics_string)
 
 
-def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_fn, metrics, params, model_dir,
+def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, scheduler, loss_fn, metrics, params, model_dir,
                        restore_file=None):
     """Train the model and evaluate every epoch.
 
@@ -140,7 +140,7 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_
         val_acc = val_metrics['accuracy']
         #is_best = val_acc>=best_val_acc BAD THIS IS FOR CLASSIFICATION BEST IS MINIMIZING ACCURACY
         is_best = val_acc<=best_val_acc
-
+        scheduler.step(val_acc)
         # Save weights
         utils.save_checkpoint({'epoch': epoch + 1,
                                'state_dict': model.state_dict(),
@@ -194,12 +194,12 @@ if __name__ == '__main__':
     model = net.Net(params).cuda() if params.cuda else net.Net(params)
     #optimizer = optim.Adam(model.parameters(), lr=params.learning_rate)
     optimizer = optim.Adam(filter(lambda p: p.requires_grad,model.parameters()), lr = params.learning_rate)
-
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', min_lr = 0.0001, patience = 2)
     # fetch loss function and metrics
     loss_fn = net.loss_fn
     metrics = net.metrics
 
     # Train the model
     logging.info("Starting training for {} epoch(s)".format(params.num_epochs))
-    train_and_evaluate(model, train_dl, val_dl, optimizer, loss_fn, metrics, params, args.model_dir,
+    train_and_evaluate(model, train_dl, val_dl, optimizer, scheduler, loss_fn, metrics, params, args.model_dir,
                        args.restore_file)

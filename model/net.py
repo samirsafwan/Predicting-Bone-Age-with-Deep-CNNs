@@ -36,10 +36,11 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.num_channels = params.num_channels
         self.model = inception_v3(pretrained=False)
-        self.genderfc1 = nn.Linear(1, 8)
-        self.genderfc2 = nn.Linear(8, 16)
+        self.genderfc1 = nn.Linear(1, 16)
+        #self.genderfc2 = nn.Linear(8, 16)
         self.fc1 = nn.Linear(2064, 1000)
-        self.fc2 = nn.Linear(1000, 1)
+        self.fc2 = nn.Linear(1000, 500)
+        self.fc3 = nn.Linear(500, 1)
 
 
     def forward(self, s):
@@ -59,21 +60,22 @@ class Net(nn.Module):
             gender = s[1]
             x, aux = self.model(x)  
             gender = F.relu(self.genderfc1(gender))
-            gender = F.relu(self.genderfc2(gender))
+            #gender = F.relu(self.genderfc2(gender))
             x = torch.cat((x, gender), 1)
             x = F.relu(self.fc1(x))
-            x = self.fc2(x)
+            x = F.relu(self.fc2(x))
+            x = self.fc3(x)
             return x, aux
         else:
-            print("in else")
             x=s[0]
             gender = s[1]
             x = self.model(x)  
             gender = F.relu(self.genderfc1(gender))
-            gender = F.relu(self.genderfc2(gender))
+            #gender = F.relu(self.genderfc2(gender))
             x = torch.cat((x, gender), 1)
             x = F.relu(self.fc1(x))
-            x = self.fc2(x)
+            x = F.relu(self.fc2(x))
+            x = self.fc3(x)
             return x
 
 
