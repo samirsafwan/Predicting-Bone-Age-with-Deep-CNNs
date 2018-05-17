@@ -62,7 +62,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
 
             # compute model output and loss
             output_batch = model((train_batch, gender))
-            loss = loss_fn(output_batch, labels)
+            loss = loss_fn(output_batch, labels, True)
 
             # clear previous gradients, compute gradients of all variables wrt loss
             optimizer.zero_grad()
@@ -134,7 +134,6 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, loss_
 
         # compute number of batches in one epoch (one full pass over the training set)
         train(model, optimizer, loss_fn, train_dataloader, metrics, params)
-
         # Evaluate for one epoch on validation set
         val_metrics = evaluate(model, loss_fn, val_dataloader, metrics, params)
 

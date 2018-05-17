@@ -37,8 +37,8 @@ class Net(nn.Module):
         self.num_channels = params.num_channels
         self.model = inception_v3(pretrained=False)
         self.genderfc1 = nn.Linear(1, 8)
-        self.genderfc2 = nn.Linear(8, 32)
-        self.fc1 = nn.Linear(2080, 1000)
+        self.genderfc2 = nn.Linear(8, 16)
+        self.fc1 = nn.Linear(2064, 1000)
         self.fc2 = nn.Linear(1000, 1)
 
 
@@ -54,21 +54,30 @@ class Net(nn.Module):
 
         Note: the dimensions after each step are provided
         """
-        
-        x=s[0]
-        gender = s[1]
-        print('inception_v3')
-        x, aux = self.model(x)  
-        gender = F.relu(self.genderfc1(gender))
-        gender = F.relu(self.genderfc2(gender))
-        x = torch.cat((x, gender), 1)
-        x = F.relu(self.fc1(x))
-        x = self.fc2(x)
-        print((x,aux))
-        return x, aux
+        if self.training:
+            x=s[0]
+            gender = s[1]
+            x, aux = self.model(x)  
+            gender = F.relu(self.genderfc1(gender))
+            gender = F.relu(self.genderfc2(gender))
+            x = torch.cat((x, gender), 1)
+            x = F.relu(self.fc1(x))
+            x = self.fc2(x)
+            return x, aux
+        else:
+            print("in else")
+            x=s[0]
+            gender = s[1]
+            x = self.model(x)  
+            gender = F.relu(self.genderfc1(gender))
+            gender = F.relu(self.genderfc2(gender))
+            x = torch.cat((x, gender), 1)
+            x = F.relu(self.fc1(x))
+            x = self.fc2(x)
+            return x
 
 
-def loss_fn(outputs, labels):
+def loss_fn(outputs, labels, isTraining):
     """
     Compute the cross entropy loss given outputs and labels.
 
@@ -82,7 +91,8 @@ def loss_fn(outputs, labels):
     Note: you may use a standard loss function from http://pytorch.org/docs/master/nn.html#loss-functions. This example
           demonstrates how you can easily define a custom loss function.
     """
-    return ((outputs[0] - labels)**2).mean() + 0.5*((outputs[1]-labels)**2).mean()
+    if not isTraining: return ((outputs-labels)**2).mean()
+    return ((outputs[0] - labels)**2).mean() + 0.4*((outputs[1]-labels)**2).mean()
 
 
 
@@ -96,13 +106,9 @@ def accuracy(outputs, labels):
 
     Returns: (float) accuracy in [0,1]
     """
-    '''
-    outputs = np.argmax(outputs, axis=1)
-    return np.sum(outputs==labels)/float(labels.size)
-    '''
-    #return loss_fn(outputs, labels)
-    #return ((outputs - labels)**2).mean()
-    return ((outputs[0]-labels)**2).mean()
+    if len(outputs)>1: return ((outputs[0]-labels)**2).mean()
+    print("in accuracy else!!!")
+    return ((outputs-labels)**2).mean()
 
 
 # maintain all metrics required in this dictionary- these are used in the training and evaluation loops

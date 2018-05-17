@@ -50,7 +50,7 @@ def evaluate(model, loss_fn, dataloader, metrics, params):
         
         # compute model output
         output_batch = model((data_batch, gender))
-        loss = loss_fn(output_batch, labels)
+        loss = loss_fn(output_batch, labels, False)
 
         # extract data from torch Variable, move to cpu, convert to numpy arrays
         output_batch = output_batch.data.cpu().numpy()
