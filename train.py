@@ -195,7 +195,7 @@ if __name__ == '__main__':
     model = net.Net(params).cuda() if params.cuda else net.Net(params)
     #optimizer = optim.Adam(model.parameters(), lr=params.learning_rate)
     optimizer = optim.Adam(filter(lambda p: p.requires_grad,model.parameters()), lr = params.learning_rate)
-    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', min_lr = 0.0001, patience = 2)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor = 0.8, min_lr = 0.0001, patience = 5, cooldown = 3)
     # fetch loss function and metrics
     loss_fn = net.loss_fn
     metrics = net.metrics
