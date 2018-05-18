@@ -55,6 +55,7 @@ class Net(nn.Module):
 
         Note: the dimensions after each step are provided
         """
+        '''
         if self.training:
             x=s[0]
             gender = s[1]
@@ -77,6 +78,16 @@ class Net(nn.Module):
             x = F.relu(self.fc2(x))
             x = self.fc3(x)
             return x
+        '''
+        x=s[0]
+        gender = s[1]
+        x, aux = self.model(x)  
+        gender = F.relu(self.genderfc1(gender))
+        x = torch.cat((x, gender), 1)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
 
 
 
