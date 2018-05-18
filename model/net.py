@@ -65,7 +65,7 @@ class Net(nn.Module):
             x = F.relu(self.fc1(x))
             x = F.relu(self.fc2(x))
             x = self.fc3(x)
-            return x, aux
+            return x
         else:
             x=s[0]
             gender = s[1]
@@ -77,7 +77,6 @@ class Net(nn.Module):
             x = F.relu(self.fc2(x))
             x = self.fc3(x)
             return x
-        return x
 
 
 
@@ -95,8 +94,8 @@ def loss_fn(outputs, labels, isTraining):
     Note: you may use a standard loss function from http://pytorch.org/docs/master/nn.html#loss-functions. This example
           demonstrates how you can easily define a custom loss function.
     """
-    if not isTraining: return ((outputs-labels)**2).mean()
-    return ((outputs[0] - labels)**2).mean() #+ 0.4*((outputs[1]-labels)**2).mean()
+    #if not isTraining: return ((outputs-labels)**2).mean()
+    return ((outputs - labels)**2).mean() #+ 0.4*((outputs[1]-labels)**2).mean()
 
 
 def accuracy(outputs, labels):

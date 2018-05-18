@@ -59,7 +59,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
             #train_batch, gender, labels_batch = Variable(train_batch), Variable(gender), Variable(labels_batch)
             gender = gender.view(gender.shape[0],1)
             if params.cuda:
-                train_batch, gender, labels_batch = train_batch.cuda(async=True), gender.cuda(aysnc=True), labels_batch.cuda(async=True)
+                train_batch, gender, labels_batch = train_batch.cuda(async=True), gender.cuda(async=True), labels.cuda(async=True)
             # compute model output and loss
             output_batch = model((train_batch, gender))
             loss = loss_fn(output_batch, labels, True)
@@ -83,7 +83,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
                 #
                 #
 
-                output_batch = output_batch[0].data.cpu().numpy()
+                output_batch = output_batch.data.cpu().numpy()
 
                 #output_batch = output_batch.data.cpu().numpy()
                 labels = labels.data.cpu().numpy()
