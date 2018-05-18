@@ -55,7 +55,6 @@ class Net(nn.Module):
 
         Note: the dimensions after each step are provided
         """
-        '''
         if self.training:
             x=s[0]
             gender = s[1]
@@ -88,7 +87,7 @@ class Net(nn.Module):
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
         return x
-
+        '''
 
 
 def loss_fn(outputs, labels, isTraining):
