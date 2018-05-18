@@ -15,7 +15,7 @@ model_urls = {
 }
 
 
-def inception_v3(pretrained=False, **kwargs):
+def inception_v3(pretrained=True, **kwargs):
     r"""Inception v3 model architecture from
     `"Rethinking the Inception Architecture for Computer Vision" <http://arxiv.org/abs/1512.00567>`_.
     Args:
@@ -51,7 +51,7 @@ class Inception3(nn.Module):
         self.Mixed_6d = InceptionC(768, channels_7x7=160)
         self.Mixed_6e = InceptionC(768, channels_7x7=192)
         if aux_logits:
-            self.AuxLogits = InceptionAux(768, 1)
+            self.AuxLogits = InceptionAux(768, num_classes)
         self.Mixed_7a = InceptionD(768)
         self.Mixed_7b = InceptionE(1280)
         self.Mixed_7c = InceptionE(2048)

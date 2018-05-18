@@ -84,6 +84,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
                 #
 
                 output_batch = output_batch[0].data.cpu().numpy()
+
                 #output_batch = output_batch.data.cpu().numpy()
                 labels = labels.data.cpu().numpy()
 

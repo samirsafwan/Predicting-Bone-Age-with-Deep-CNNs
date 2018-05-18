@@ -35,7 +35,7 @@ class Net(nn.Module):
         """
         super(Net, self).__init__()
         self.num_channels = params.num_channels
-        self.model = inception_v3(pretrained=False)
+        self.model = inception_v3(pretrained=False, transform_input=False)
         self.genderfc1 = nn.Linear(1, 16)
         #self.genderfc2 = nn.Linear(8, 16)
         self.fc1 = nn.Linear(2064, 1000)
@@ -77,6 +77,8 @@ class Net(nn.Module):
             x = F.relu(self.fc2(x))
             x = self.fc3(x)
             return x
+        return x
+
 
 
 def loss_fn(outputs, labels, isTraining):
@@ -94,8 +96,7 @@ def loss_fn(outputs, labels, isTraining):
           demonstrates how you can easily define a custom loss function.
     """
     if not isTraining: return ((outputs-labels)**2).mean()
-    return ((outputs[0] - labels)**2).mean() + 0.4*((outputs[1]-labels)**2).mean()
-
+    return ((outputs[0] - labels)**2).mean() #+ 0.4*((outputs[1]-labels)**2).mean()
 
 
 def accuracy(outputs, labels):
@@ -108,8 +109,8 @@ def accuracy(outputs, labels):
 
     Returns: (float) accuracy in [0,1]
     """
-    if len(outputs)>1: return ((outputs[0]-labels)**2).mean()
-    print("in accuracy else!!!")
+    #if len(outputs)>1: return ((outputs[0]-labels)**2).mean()
+    #print("in accuracy else!!!")
     return ((outputs-labels)**2).mean()
 
 
