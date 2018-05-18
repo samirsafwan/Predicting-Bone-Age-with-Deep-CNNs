@@ -61,7 +61,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
             if params.cuda:
                 train_batch, gender, labels = train_batch.cuda(async=True), gender.cuda(async=True), labels.cuda(async=True)
             # compute model output and loss
-            output_batch = model((train, gender))
+            output_batch = model((train_batch, gender))
             loss = loss_fn(output_batch, labels, True)
 
             # clear previous gradients, compute gradients of all variables wrt loss
