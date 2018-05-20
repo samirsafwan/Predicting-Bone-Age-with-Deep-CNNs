@@ -56,6 +56,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
 
 
             train_batch, gender, labels = Variable(train_batch), Variable(gender), Variable(labels)
+
             #train_batch, gender, labels_batch = Variable(train_batch), Variable(gender), Variable(labels_batch)
             gender = gender.view(gender.shape[0],1)
             if params.cuda:
@@ -72,6 +73,7 @@ def train(model, optimizer, loss_fn, dataloader, metrics, params):
             optimizer.step()
 
             # Evaluate summaries only once in a while
+            
             if i % params.save_summary_steps == 0:
                 # extract data from torch Variable, move to cpu, convert to numpy arrays
 
@@ -162,7 +164,6 @@ def train_and_evaluate(model, train_dataloader, val_dataloader, optimizer, sched
         last_json_path = os.path.join(model_dir, "metrics_val_last_weights.json")
         utils.save_dict_to_json(val_metrics, last_json_path)
 
-
 if __name__ == '__main__':
 
     # Load the parameters from json file
@@ -194,8 +195,8 @@ if __name__ == '__main__':
     # Define the model and optimizer
     model = net.Net(params).cuda() if params.cuda else net.Net(params)
     #optimizer = optim.Adam(model.parameters(), lr=params.learning_rate)
-    optimizer = optim.Adam(filter(lambda p: p.requires_grad,model.parameters()), lr = params.learning_rate)
-    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor = 0.8, min_lr = 0.0001, patience = 5, cooldown = 3)
+    optimizer = optim.Adam(model.parameters(), lr = params.learning_rate)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor = 0.8, min_lr = 0.000, patience = 5, cooldown = 3)
     # fetch loss function and metrics
     loss_fn = net.loss_fn
     metrics = net.metrics
