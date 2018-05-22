@@ -133,7 +133,9 @@ def load_checkpoint(checkpoint, model, optimizer=None):
     """
     if not os.path.exists(checkpoint):
         raise("File doesn't exist {}".format(checkpoint))
-    checkpoint = torch.load(checkpoint)
+    #checkpoint = torch.load(checkpoint)
+    checkpoint = torch.load(checkpoint, map_location = 'cpu')
+
     model.load_state_dict(checkpoint['state_dict'])
 
     if optimizer:

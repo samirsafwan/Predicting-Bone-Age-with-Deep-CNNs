@@ -91,8 +91,6 @@ def loss_fn(outputs, labels, isTraining):
     Note: you may use a standard loss function from http://pytorch.org/docs/master/nn.html#loss-functions. This example
           demonstrates how you can easily define a custom loss function.
     """
-    #if not isTraining: return ((outputs-labels)**2).mean()
-    #return ((outputs - labels)**2).mean() #+ 0.4*((outputs[1]-labels)**2).mean()
     outputs = outputs.view(outputs.shape[0])
     return (torch.abs(outputs - labels)).mean()
 
@@ -107,6 +105,7 @@ def accuracy(outputs, labels):
 
     Returns: (float) accuracy in [0,1]
     """
+    outputs = outputs.reshape(outputs.shape[0])
     return (np.abs(outputs - labels)).mean()
 
 

@@ -1,6 +1,6 @@
 {
     "learning_rate": 0.001,
-    "batch_size": 8,
+    "batch_size": 16,
     "num_epochs": 500,
     "dropout_rate": 0.5, 
     "num_channels": 32,
