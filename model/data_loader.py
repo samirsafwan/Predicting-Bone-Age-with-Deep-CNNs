@@ -49,13 +49,28 @@ def read_csv():
             rownum += 1
     return response_data
 
+# Read CSV For Test Set
+def read_csv_test():
+    response_data = defaultdict(str)
+    with open('test_csv.csv') as f:
+        reader = csv.reader(f, delimiter=',')
+        rownum = 0
+        for row in reader:
+            if rownum > 0:
+                gender = np.float32(1)
+                if row[1] == "F":
+                    gender = np.float32(0)
+                response_data[row[0]+'.png'] = (np.float32(row[2]), gender)
+            rownum += 1
+    return response_data
+
 
 # borrowed from http://pytorch.org/tutorials/advanced/neural_style_tutorial.html
 # and http://pytorch.org/tutorials/beginner/data_loading_tutorial.html
 # define a training image loader that specifies transforms on images. See documentation for more details.
 train_transformer = transforms.Compose([
     #transforms.Resize(64),  # resize the image to 64x64 (remove if images are already 64x64)
-    #transforms.RandomHorizontalFlip(),  # randomly flip image horizontally
+    transforms.RandomHorizontalFlip(),  # randomly flip image horizontally
     transforms.Grayscale(3),
     transforms.ToTensor()])  # transform it into a torch tensor
 
@@ -78,7 +93,12 @@ class HANDDataset(Dataset):
             data_dir: (string) directory containing the dataset
             transform: (torchvision.transforms) transformation to apply on image
         """
+
+        # FOR TRAIN/VAL
         response_data = read_csv()
+
+        ## FOR TEST SET
+        #response_data = read_csv_test()
         self.filenames = os.listdir(data_dir)
         self.filenames = [os.path.join(data_dir, f) for f in self.filenames if f.endswith('.png')]
 

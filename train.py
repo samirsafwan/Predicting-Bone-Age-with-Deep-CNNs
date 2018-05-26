@@ -27,8 +27,8 @@ except AttributeError:
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_dir', default='data/299x299boneage-training-dataset', help="Directory containing the dataset")
-parser.add_argument('--model_dir', default='model_5_21', help="Directory containing params.json")
-parser.add_argument('--restore_file', default='best',
+parser.add_argument('--model_dir', default='experiments/base_model', help="Directory containing params.json")
+parser.add_argument('--restore_file', default=None,
                     help="Optional, name of the file in --model_dir containing weights to reload before \
                     training")  # 'best' or 'train'
 
@@ -207,7 +207,7 @@ if __name__ == '__main__':
     #optimizer = optim.Adam(model.parameters(), lr=params.learning_rate)
 
     optimizer = optim.Adam(model.parameters(), lr = params.learning_rate)
-    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor = 0.8, min_lr = 0.000, patience = 10, cooldown = 5)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor = 0.8, min_lr = 0.0001, patience = 10, cooldown = 5)
     # fetch loss function and metrics
     loss_fn = net.loss_fn
     metrics = net.metrics

@@ -22,15 +22,8 @@ except AttributeError:
     torch._utils._rebuild_tensor_v2 = _rebuild_tensor_v2
 
 image = Image.open("gc.png").convert('RGBA')
-'''
-imshow(image)
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.imshow(image)
 
 
-plt.show()
-'''
 preprocess = transforms.Compose([
     transforms.Grayscale(3),
     transforms.ToTensor()
@@ -67,18 +60,23 @@ print("getting activated features")
 #activated_features = SaveFeatures(model.model.Mixed_7c.branch1x1) #or fc3
 
 
-#activated_features = SaveFeatures(model.model.Mixed_7c.branch3x3dbl_3b)
-#activated_features = SaveFeatures(model.model.Conv2d_4a_3x3)
+#activated_features = SaveFeatures(model.model.Mixed_7a.branch3x3_2)
+#activated_features = SaveFeatures(model.model.Mixed_6a.branch3x3dbl_3)
 
 # USE THIS
 #activated_features = SaveFeatures(model.model.Mixed_6e.branch7x7_3)
 
+#activated_features = SaveFeatures(model.model.Mixed_5b.branch3x3dbl_2)
+
+
 
 
 prediction = model((image_var, gender)).data.squeeze()
+print(prediction)
 activated_features.remove()
 
 def getCAM(feature_conv, weight_fc):
+    print(feature_conv.shape)
     _, nc, h, w = feature_conv.shape
     print("doing dot product")
     cam = np.dot(weight_fc, feature_conv.reshape((nc, h*w)))
@@ -90,11 +88,19 @@ def getCAM(feature_conv, weight_fc):
 
 print("getting weights")
 
+'''
+
+weight = list(model.model.Mixed_5b.branch3x3dbl_2.parameters())
+weight = np.squeeze(weight[len(weight)-2].data.cpu().numpy())
+'''
+
 # USE THIS
 '''
 weight = list(model.model.Mixed_6e.branch7x7_3.parameters())
 weight = np.squeeze(weight[len(weight)-2].data.cpu().numpy())
 '''
+
+
 
 # USE ONE OF THESE
 '''
@@ -102,14 +108,17 @@ weight = list(model.model.Mixed_7c.branch1x1.parameters())
 weight = np.squeeze(weight[len(weight)-2].data.cpu().numpy())
 '''
 
+
+#weight = np.squeeze(model.model.parameters())[-1].data.cpu().numpy()))
 '''
-weight = list(model.model.Mixed_7c.branch3x3dbl_3b.parameters())
+weight = list(model.model.Mixed_7a.branch3x3_2.parameters())
 weight = np.squeeze(weight[len(weight)-2].data.cpu().numpy())
 '''
 
 # MAYBE DONT USE THIS
+
 '''
-weight = list(model.model.Conv2d_4a_3x3.parameters())
+weight = list(model.model.Mixed_6a.branch3x3dbl_3.parameters())
 weight = np.squeeze(weight[len(weight)-2].data.cpu().numpy())
 '''
 

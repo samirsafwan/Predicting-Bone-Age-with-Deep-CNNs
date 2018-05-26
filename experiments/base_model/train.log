@@ -2182,3 +2182,11 @@
 2018-05-20 23:06:49,775:INFO: - done.
 2018-05-20 23:06:54,181:INFO: Starting training for 500 epoch(s)
 2018-05-20 23:06:54,182:INFO: Epoch 1/500
+2018-05-25 17:10:58,983:INFO: Loading the datasets...
+2018-05-25 17:10:59,106:INFO: - done.
+2018-05-25 17:11:02,893:INFO: Starting training for 200 epoch(s)
+2018-05-25 17:11:02,893:INFO: Restoring parameters from experiments/base_model/best.pth.tar
+2018-05-25 17:12:27,774:INFO: Loading the datasets...
+2018-05-25 17:12:27,908:INFO: - done.
+2018-05-25 17:12:31,080:INFO: Starting training for 200 epoch(s)
+2018-05-25 17:12:31,081:INFO: Epoch 1/200

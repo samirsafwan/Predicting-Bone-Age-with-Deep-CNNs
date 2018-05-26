@@ -27,7 +27,7 @@ from tqdm import tqdm
 SIZE = 299
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--data_dir', default='data/boneage-training-dataset', help="Directory with the X-Ray dataset")
+parser.add_argument('--data_dir', default='test_set_final', help="Directory with the X-Ray dataset")
 parser.add_argument('--output_dir', default='data/299x299boneage-training-dataset', help="Where to write the new data")
 
 
@@ -46,15 +46,16 @@ if __name__ == '__main__':
 
     # Define the data directories
     train_data_dir = args.data_dir
-    ##test_data_dir = os.path.join(args.data_dir, 'test_signs')
+    #test_data_dir = args.data_dir
 
     # Get the filenames in each directory (train and test)
     filenames = os.listdir(train_data_dir)
     filenames = [os.path.join(train_data_dir, f) for f in filenames if f.endswith('.png')]
 
-    ##test_filenames = os.listdir(test_data_dir)
-    ##test_filenames = [os.path.join(test_data_dir, f) for f in test_filenames if f.endswith('.png')]
-
+    '''
+    test_filenames = os.listdir(test_data_dir)
+    test_filenames = [os.path.join(test_data_dir, f) for f in test_filenames if f.endswith('.png')]
+    '''
     # Split the images in 'train_signs' into 80% train and 20% val
     # Make sure to always shuffle with a fixed seed so that the split is reproducible
     random.seed(230)
@@ -64,11 +65,15 @@ if __name__ == '__main__':
     split = int(0.8 * len(filenames))
     train_filenames = filenames[:split]
     val_filenames = filenames[split:]
-    #test_filenames = filenames[split2:]
+    #test_filenames = filenames
 
-    #filenames = {'train': train_filenames,
-    #             'val': val_filenames,
-    #             'test': test_filenames}
+
+
+    # Use this for test set loading:
+    #filenames = {'test': test_filenames}
+
+    # Use this for train/val set loading
+    
     filenames = {'train': train_filenames,
                  'val': val_filenames,
                  }
@@ -80,7 +85,8 @@ if __name__ == '__main__':
 
     # Preprocess train, val and test
     #for split in ['train', 'val', 'test']:
-    for split in ['train', 'val']:
+    for split in ['test']:
+    #for split in ['train', 'val']:
         output_dir_split = os.path.join(args.output_dir, '{}_signs'.format(split))
         if not os.path.exists(output_dir_split):
             os.mkdir(output_dir_split)
