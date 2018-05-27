@@ -99,6 +99,7 @@ class HANDDataset(Dataset):
 
         ## FOR TEST SET
         #response_data = read_csv_test()
+        
         self.filenames = os.listdir(data_dir)
         self.filenames = [os.path.join(data_dir, f) for f in self.filenames if f.endswith('.png')]
 

@@ -11,7 +11,7 @@ from torch.autograd import Variable
 from tqdm import tqdm
 
 import utils
-import model.net as net
+import model.net2 as net
 import model.data_loader as data_loader
 from evaluate import evaluate
 import torch._utils
